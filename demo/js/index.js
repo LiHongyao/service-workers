@@ -9,7 +9,8 @@ if ('serviceWorker' in navigator) {
 };
 
 
-window.addEventListener('load', function () {
+
+/* window.addEventListener('load', function () {
     const sw = window.navigator.serviceWorker
     const killSW = window.killSW || false
     if (!sw) {
@@ -35,4 +36,4 @@ window.addEventListener('load', function () {
             console.error(err)
         })
     }
-});
+}); */

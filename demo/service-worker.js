@@ -1,9 +1,10 @@
+// /service-worker.js
 // => 安装
 // 用于标注创建的缓存，也可以根据它来建立版本规范
-const CACHE_NAME = "cache_v1.0.1";
+const CACHE_NAME = "cache_v1.0.2";
 // 列举要默认缓存的静态资源，一般用于离线使用
 const urlsToCache = [
-    '/index.html',
+    '/',
     '/js/index.js',
     '/css/index.css',
     '/images/jayChou.jpeg'
@@ -15,7 +16,6 @@ self.addEventListener('install', event => {
         })
     );
 })
-
 
 // => 激活
 self.addEventListener('activate', event => {
@@ -40,21 +40,25 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
     event.respondWith(
         // 先去缓存中查找请求的文件
-        caches.match(event.request).then(resp => {
+        caches.match(event.request).then(response => {
             // 如果找到了就返回缓存文件
+            if (response) {
+                return response;
+            }
             // 如果没有找到则发起请求
-            return resp || fetch(event.request).then(response => {
-                // 请求成功之后将新的资源存入缓存中，然后在返回下载的资源
-                return caches.open(CACHE_NAME).then(cache => {
-                    cache.put(event.request, response.clone());
+            // 克隆请求
+            const fetchRequest = event.request.clone();
+            return fetch(fetchRequest).then(response => {
+                // 请求成功之后将新的资源存入缓存中，然后再返回下载的资源
+                if (!response || response.status !== 200 || response.type !== 'basic') {
                     return response;
+                }
+                const responseToCache = response.clone();
+                caches.open(CACHE_NAME).then(cache => {
+                    cache.put(event.request, responseToCache);
                 });
+                return response;
             });
         })
     );
 });
-
-
-
-
-
