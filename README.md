@@ -40,7 +40,7 @@ Service Worker 是 Chrome 团队提出和力推的一个 WEB API，用于给 web
 
 # 三、PWA
 
-谷歌给以 Service Worker API 为核心实现的 web 应用取了个高大上的名字：Progressive Web Apps（PWA，渐进式增强 WEB 应用），并且在其主要产品上进行了深入的实践。那么，符合 PWA 的应用特点是什么？以下为来自谷歌工程师的解答。
+Progressive Web Apps（PWA，渐进式增强 WEB 应用）
 
 Progressive Web Apps 是:
 
@@ -54,6 +54,25 @@ Progressive Web Apps 是:
 - **再次访问** – 通过消息推送等特性让用户再次访问变得容易。
 - **可安装** – 允许用户保留对他们有用的应用在主屏幕上，不需要通过应用商店。
 - **可连接性** – 通过 URL 可以轻松分享应用，不用复杂的安装即可运行。
+
+**# PWA 组成技术**
+
+- Service Worker
+  - 常驻内存运行
+  - 代理网络请求
+  - 依赖HTTPS
+- Promise
+  - 优化回调地狱
+  - async/await语法同步化
+  - service worker的API风格
+- fetch：网络请求
+- Cache API：支持资源的缓存系统
+  - 缓存资源（css/scripts/image)
+  - 依赖Service Worker代理网络请求
+  - 支持离线程序运行
+- Notification API：消息推送
+  - 依赖用户授权
+  - 适合在Service Worker中推送
 
 # 三、生命周期
 
